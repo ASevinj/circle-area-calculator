@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Circle Area Calculator</title>
+</head>
+
+<body>
+    <h1>Circle Area Calculator</h1>
+
+    <p>Enter the radius:</p>
+
+    <input type="number" id="radius"
+           min="0" step="any" value="5">
+
+    <button id="calculate" onclick="calculate()" disabled>
+        Loading C++...
+    </button>
+
+    <h2 id="result">Result will appear here</h2>
+
+    <script>
+        var Module = {
+            onRuntimeInitialized: function() {
+                const button =
+                    document.getElementById("calculate");
+
+                button.disabled = false;
+                button.textContent = "Calculate Area";
+            }
+        };
+
+        function calculate() {
+            const value =
+                document.getElementById("radius").value;
+
+            const radius = Number(value);
+
+            if (value.trim() === "" ||
+                !Number.isFinite(radius) ||
+                radius < 0) {
+                document.getElementById("result")
+                    .textContent = "Enter a valid radius";
+                return;
+            }
+
+            const area = Module.ccall(
+                "calculateArea",
+                "number",
+                ["number"],
+                [radius]
+            );
+
+            document.getElementById("result")
+                .textContent =
+                "Area = " + area.toFixed(2);
+        }
+    </script>
+
+    <script src="circle.js"></script>
+</body>
+</html>
